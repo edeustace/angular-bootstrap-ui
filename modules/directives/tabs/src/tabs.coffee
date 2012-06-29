@@ -31,6 +31,10 @@ angular.module('angularBootstrap.tabs', [])
 			$scope.selectedTab = tab
 			$scope.selectedIdx = $scope.tabs.indexOf tab
 
+			#default tab select callback
+			#ON_TAB_SELECT = "onTabSelect"
+			#$scope[ON_TAB_SELECT](tab) if $scope[ON_TAB_SELECT]? 
+
 		# Uses `this` to be exposed for angularBootstrap-tab directive
 		this.addTab = (tab, index) ->
 			$scope.tabs.push tab

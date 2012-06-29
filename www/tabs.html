@@ -1,0 +1,42 @@
+<!doctype html>
+<html ng-app="angularBootstrap">
+<head>
+  <title>Angular Bootstrap UI</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="http://code.angularjs.org/1.0.0/angular-1.0.0.js"></script>
+  <script src="../build/angular-bootstrap-ui.js"></script>
+  <script src="demo.js"></script>
+</head>
+<body ng-controller="MainCtrl" ng-init="modalShown = false">
+  <div class="container">
+    <h1>Tabs</h1>
+    <div class="row">
+      <div class="span10">
+        <strap-tabs>
+          <div class="well">
+            <strap-tab title="'Static Tab'" show="showTab">
+              <div>
+                <strap-tabs>
+                  <strap-tab title="'sub item 1'">
+                    <h1>sub item 1</h1>
+                  </strap-tab>
+                  <strap-tab title="'sub item 2'">
+                    <h1>sub item 2</h1>
+                  </strap-tab>
+              </strap-tabs>
+              </div>
+            </strap-tab>
+            <strap-tab title="'Another Static Tab'"><i>Woah!</i></strap-tab>
+            <strap-tab ng-repeat="tab in $parent.Tabular" title="'Dynamic Tab '+tab.title">{{tab.content}}</strap-tab>
+          </div>
+        </strap-tabs>
+        <br />
+       
+      </div><!--/span6-->
+    </div><!--/row-->
+    <hr />
+    
+  </div><!--/container-->
+</body>
+</html>
