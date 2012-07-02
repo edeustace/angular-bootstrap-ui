@@ -7,6 +7,7 @@ all: build
 coffee:
 	coffee -c ${COFFEE_FILES}
 
+
 js: coffee
 	cat common/**/*.js ${JS_SRC_FILES} > build/angular-bootstrap-ui.js
 	uglifyjs -o build/angular-bootstrap-ui.min.js --no-mangle --no-squeeze build/angular-bootstrap-ui.js

@@ -436,6 +436,7 @@ Example usage, showing both ways of opening/closing the modal:
         require: '?ngModel',
         scope: true,
         link: function(scope, elm, attrs, model) {
+          scope.modalName = attrs["ngModel"];
           $(elm).modal({
             backdrop: scope.backdrop,
             keyboard: scope.keyboard,
@@ -451,12 +452,12 @@ Example usage, showing both ways of opening/closing the modal:
           });
           $(elm).bind('shown', function() {
             return $timeout(function() {
-              return scope.ngModel(true);
+              return scope.modalName = true;
             });
           });
           return $(elm).bind('hidden', function() {
             return $timeout(function() {
-              return scope.ngModel(false);
+              return scope.modalName = false;
             });
           });
         }
@@ -475,6 +476,23 @@ Example usage:
 	<div ng-repeat="stuff in things">
 		<strap-tab title="{{stuff}}">{{stuff.things}}</strap-tab>
 	</div>
+</strap-tabs>
+
+
+== next-tab
+When placed inside a <strap-tab> will cause a click of the given element to navigate to the next tab
+eg:
+<strap-tabs>
+	<strap-tab>
+		<div>
+			Tab 1	
+			<!-- clicking this will navigate to Tab 2 -->
+			<a next-tab>next</a>
+	<strap-tab>
+
+	<strap-tab title="'Tab 2'">
+		Tab 2
+	</strap-tab>
 </strap-tabs>
 */
 
@@ -499,18 +517,40 @@ Example usage:
             _tab = _ref[_i];
             _tab.selected(false);
           }
-          tab.selected(true);
+          $timeout(function() {
+            return tab.selected(true);
+          });
           $scope.selectedTab = tab;
-          return $scope.selectedIdx = $scope.tabs.indexOf(tab);
+          $scope.selectedIdx = $scope.tabs.indexOf(tab);
+          if ($scope.onTabSelect != null) $scope.onTabSelect(tab);
+          return null;
+        };
+        $scope.changeTab = function(index) {
+          try {
+            return $scope.selectTab($scope.tabs[index]);
+          } catch (e) {
+            console.error("could not change tab, probably array out of bounds");
+            throw e;
+          }
         };
         this.addTab = function(tab, index) {
           $scope.tabs.push(tab);
           if ($scope.tabs.length === 1) return $scope.selectTab(tab);
         };
-        return this.removeTab = function(tab) {
+        this.removeTab = function(tab) {
           return $timeout(function() {
             return $scope.tabs.splice($scope.tabs.indexOf(tab, 1));
           });
+        };
+        this.nextTab = function() {
+          var newIdx;
+          newIdx = $scope.selectedIdx + 1;
+          return $scope.changeTab(newIdx);
+        };
+        return this.previousTab = function() {
+          var newIdx;
+          newIdx = $scope.selectedIdx - 1;
+          return $scope.changeTab(newIdx);
         };
       };
       return {
@@ -547,6 +587,34 @@ Example usage:
           title: '='
         },
         template: "<div class=\"tab-pane\" ng-class=\"{active:selected}\" ng-show=\"selected\" ng-transclude></div>"
+      };
+    }
+  ]).directive('nextTab', [
+    function() {
+      var linkFn;
+      linkFn = function(scope, element, attrs, container) {
+        return element.bind('click', function() {
+          return container.nextTab();
+        });
+      };
+      return {
+        link: linkFn,
+        restrict: 'A',
+        require: '^strapTabs'
+      };
+    }
+  ]).directive('prevTab', [
+    function() {
+      var linkFn;
+      linkFn = function(scope, element, attrs, container) {
+        return element.bind('click', function() {
+          return container.previousTab();
+        });
+      };
+      return {
+        link: linkFn,
+        restrict: 'A',
+        require: '^strapTabs'
       };
     }
   ]);

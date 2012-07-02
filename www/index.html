@@ -5,7 +5,11 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 	<script src="http://code.angularjs.org/1.0.0/angular-1.0.0.js"></script>
-	<script src="../build/angular-bootstrap-ui.js"></script>
+	<script src="../common/src/module.js"></script>
+  <script src="../common/twitter-bootstrap/bootstrap-modal.js"></script>
+  <script src="../modules/directives/popover/src/popover.js"></script>
+  <script src="../modules/directives/modal/src/modal.js"></script>
+  <script src="../modules/directives/tabs/src/tabs.js"></script>
 	<script src="demo.js"></script>
 </head>
 <body ng-controller="MainCtrl" ng-init="modalShown = false">
@@ -38,7 +42,7 @@
 				<!--
 				MODAL
 				-->
-				<div id="myModal" class="modal hide fade" ng-model="modalShown">
+				<div id="myModal" class="modal hide fade" ng:model="modalShown">
 					<div class="modal-header">
 						<a class="close" data-dismiss="modal" href="myModal">x</a>
 						<h3>Modal header</h3>

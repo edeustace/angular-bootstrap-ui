@@ -5,7 +5,13 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
   <script src="http://code.angularjs.org/1.0.0/angular-1.0.0.js"></script>
+  <script src="../common/src/module.js"></script>
+  <script src="../modules/directives/popover/src/popover.js"></script>
+  <script src="../modules/directives/modal/src/modal.js"></script>
+  <script src="../modules/directives/tabs/src/tabs.js"></script>
+<!--
   <script src="../build/angular-bootstrap-ui.js"></script>
+-->
   <script src="demo.js"></script>
 </head>
 <body ng-controller="MainCtrl" ng-init="modalShown = false">
@@ -13,6 +19,8 @@
     <h1>Tabs</h1>
     <div class="row">
       <div class="span10">
+        
+        <!--
         <strap-tabs>
           <div class="well">
             <strap-tab title="'Static Tab'" show="showTab">
@@ -31,7 +39,23 @@
             <strap-tab ng-repeat="tab in $parent.Tabular" title="'Dynamic Tab '+tab.title">{{tab.content}}</strap-tab>
           </div>
         </strap-tabs>
+        -->
         <br />
+
+        <strap-tabs>
+          <div class="well">
+            <strap-tab title="'Tab 3'">
+              <div>
+                Tab 1 Content
+                <a next:tab>a link with next:tab attribute > next</a>
+              </div>
+            </strap-tab>
+            <strap-tab title="'Tab 4'">
+             Tab 2 Content 
+              <a prev:tab>a link with prev:tab attribute > previous</a>
+           </strap-tab>
+          </div>
+        </strap-tabs>
        
       </div><!--/span6-->
     </div><!--/row-->

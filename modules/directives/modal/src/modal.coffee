@@ -26,6 +26,9 @@ angular.module('angularBootstrap.modal', [])
 		require: '?ngModel'
 		scope: true
 		link: (scope, elm, attrs, model) ->
+
+			scope.modalName = attrs["ngModel"]
+
 			# Initially set options but don't show
 			$(elm).modal backdrop: scope.backdrop, keyboard: scope.keyboard, show: false
 
@@ -42,8 +45,8 @@ angular.module('angularBootstrap.modal', [])
 			# These events could be fired in or out of a $digest - so we use a $timeout
 			# to fix "$digest already happening" errors by making a future $digest be generated
 			$(elm).bind 'shown', ->
-				$timeout -> scope.ngModel true
+				$timeout -> scope.modalName = true
 			$(elm).bind 'hidden', ->
-				$timeout -> scope.ngModel false
+				$timeout -> scope.modalName = false
 	}
 ])

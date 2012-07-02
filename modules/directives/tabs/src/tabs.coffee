@@ -9,6 +9,25 @@ Example usage:
 		<strap-tab title="{{stuff}}">{{stuff.things}}</strap-tab>
 	</div>
 </strap-tabs>
+
+
+== next-tab
+When placed inside a <strap-tab> will cause a click of the given element to navigate to the next tab
+eg:
+<strap-tabs>
+	<strap-tab>
+		<div>
+			Tab 1	
+			<!-- clicking this will navigate to Tab 2 -->
+			<a next-tab>next</a>
+	<strap-tab>
+
+	<strap-tab title="'Tab 2'">
+		Tab 2
+	</strap-tab>
+</strap-tabs>
+
+
 ###
 angular.module('angularBootstrap.tabs', [])
 .directive('strapTabs', [ '$timeout', ($timeout) ->
@@ -26,16 +45,25 @@ angular.module('angularBootstrap.tabs', [])
 					$scope.selectTab $scope.tabs[Math.max $scope.selectedIdx-1,0]
 
 		$scope.selectTab = (tab) ->
+
 			_tab.selected false for _tab in $scope.tabs 
-			tab.selected true
+
+			$timeout ->
+			  tab.selected true
+			
 			$scope.selectedTab = tab
 			$scope.selectedIdx = $scope.tabs.indexOf tab
+			$scope.onTabSelect(tab) if $scope.onTabSelect?	
+			null
 
-			#default tab select callback
-			#ON_TAB_SELECT = "onTabSelect"
-			#$scope[ON_TAB_SELECT](tab) if $scope[ON_TAB_SELECT]? 
+		$scope.changeTab = (index) ->
+	    try 
+        $scope.selectTab $scope.tabs[index]
+	    catch e 
+        console.error "could not change tab, probably array out of bounds"
+        throw e
 
-		# Uses `this` to be exposed for angularBootstrap-tab directive
+		# Public
 		this.addTab = (tab, index) ->
 			$scope.tabs.push tab
 			# Select the tab if it's the only one in the array
@@ -45,6 +73,15 @@ angular.module('angularBootstrap.tabs', [])
 			# Without the timeout, angular doesn't always catch this
 			$timeout ->
 				$scope.tabs.splice $scope.tabs.indexOf tab, 1
+
+		this.nextTab = -> 
+	    newIdx = $scope.selectedIdx + 1
+	    $scope.changeTab(newIdx)
+
+		this.previousTab = () -> 
+	    newIdx = $scope.selectedIdx - 1
+	    $scope.changeTab(newIdx)
+
 
 	return {
 		restrict: 'E'
@@ -87,4 +124,23 @@ angular.module('angularBootstrap.tabs', [])
 		<div class="tab-pane" ng-class="{active:selected}" ng-show="selected" ng-transclude></div>
 		"""
 	}
+])
+.directive('nextTab', [ ->
+	linkFn = (scope, element, attrs, container) -> 
+	  element.bind 'click', -> 
+	    container.nextTab()
+  return {
+	  link: linkFn
+	  restrict:'A'
+	  require:'^strapTabs'
+  }
+]).directive('prevTab', [ ->
+	linkFn = (scope, element, attrs, container) -> 
+	  element.bind 'click', -> 
+	    container.previousTab()
+  return {
+	  link: linkFn
+	  restrict:'A'
+	  require:'^strapTabs'
+  }
 ])
