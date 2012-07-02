@@ -11,24 +11,23 @@ Example usage:
 </strap-tabs>
 
 
-== next-tab
-When placed inside a <strap-tab> will cause a click of the given element to navigate to the next tab
+= next:tab prev:tab
+When placed inside a <strap-tab> will cause a click of the given element to navigate to the next or previous tab
 eg:
 <strap-tabs>
 	<strap-tab>
 		<div>
 			Tab 1	
 			<!-- clicking this will navigate to Tab 2 -->
-			<a next-tab>next</a>
+			<a next:tab>next</a>
 	<strap-tab>
 
 	<strap-tab title="'Tab 2'">
 		Tab 2
 	</strap-tab>
 </strap-tabs>
-
-
 ###
+
 angular.module('angularBootstrap.tabs', [])
 .directive('strapTabs', [ '$timeout', ($timeout) ->
 

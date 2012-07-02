@@ -45,8 +45,8 @@ angular.module('angularBootstrap.modal', [])
 			# These events could be fired in or out of a $digest - so we use a $timeout
 			# to fix "$digest already happening" errors by making a future $digest be generated
 			$(elm).bind 'shown', ->
-				$timeout -> scope.modalName = true
+				$timeout -> scope[scope.modalName] = true
 			$(elm).bind 'hidden', ->
-				$timeout -> scope.modalName = false
+				$timeout -> scope[scope.modalName] = false
 	}
 ])

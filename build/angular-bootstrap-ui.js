@@ -1,3 +1,20 @@
+
+/*
+---------------------------------------------------------------------------------
+Angular-Bootstrap:
+@link https://github.com/edeustace/angular-bootstrap-ui
+a fork of: @link https://github.com/ajoslin/angular-bootstrap-ui
+
+Fork contains: next:tab and prev:tab directives for buttons within strap-tab directives
+Also the build has been changed to match angular-ui build.
+---------------------------------------------------------------------------------
+*/
+
+(function() {
+
+
+
+}).call(this);
 // READ: http://docs-next.angularjs.org/guide/ie
 (function(){
   
@@ -452,12 +469,12 @@ Example usage, showing both ways of opening/closing the modal:
           });
           $(elm).bind('shown', function() {
             return $timeout(function() {
-              return scope.modalName = true;
+              return scope[scope.modalName] = true;
             });
           });
           return $(elm).bind('hidden', function() {
             return $timeout(function() {
-              return scope.modalName = false;
+              return scope[scope.modalName] = false;
             });
           });
         }
@@ -479,15 +496,15 @@ Example usage:
 </strap-tabs>
 
 
-== next-tab
-When placed inside a <strap-tab> will cause a click of the given element to navigate to the next tab
+= next:tab prev:tab
+When placed inside a <strap-tab> will cause a click of the given element to navigate to the next or previous tab
 eg:
 <strap-tabs>
 	<strap-tab>
 		<div>
 			Tab 1	
 			<!-- clicking this will navigate to Tab 2 -->
-			<a next-tab>next</a>
+			<a next:tab>next</a>
 	<strap-tab>
 
 	<strap-tab title="'Tab 2'">
