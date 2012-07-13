@@ -32,6 +32,31 @@ angular.module('angularBootstrap.tabs', [])
 .directive('strapTabs', [ '$timeout', ($timeout) ->
 
 	controllerFn = ($scope, $element, $attrs) ->
+
+		this.initKeyNav = (scope, element)->
+			$(document).keyup (e) => @handleKeyNav(e, scope, element)
+
+		this.handleKeyNav = (e, scope, element) ->
+				LEFT = 37
+				RIGHT = 39
+
+				if !this.tabsAreVisible 
+					return
+
+				if e.keyCode == LEFT
+					this.previousTab()
+					return
+				if e.keyCode == RIGHT
+					this.nextTab()
+					return
+
+		if $attrs.keyNav == "true"
+			this.initKeyNav($scope, $element)
+
+		$scope.$watch $attrs['ngShow'], (newValue, oldValue) =>
+			this.tabsAreVisible = newValue
+			
+
 		$scope.tabs = []
 
 		# Change selection when tabs are added/removed
@@ -45,6 +70,9 @@ angular.module('angularBootstrap.tabs', [])
 
 		$scope.selectTab = (tab) ->
 
+			if !tab?
+				return
+				
 			_tab.selected false for _tab in $scope.tabs 
 
 			$timeout ->

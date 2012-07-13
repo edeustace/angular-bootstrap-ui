@@ -1,3 +1,4 @@
 .DS_Store
 modules/**/*.js
 *sublime*
+cp_files.sh
