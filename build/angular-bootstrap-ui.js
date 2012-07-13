@@ -558,9 +558,13 @@ eg:
         if ($attrs.keyNav === "true") {
           this.initKeyNav($scope, $element);
         }
-        $scope.$watch($attrs['ngShow'], function(newValue, oldValue) {
-          return _this.tabsAreVisible = newValue;
-        });
+        if ($attrs['ngShow']) {
+          $scope.$watch($attrs['ngShow'], function(newValue, oldValue) {
+            return _this.tabsAreVisible = newValue;
+          });
+        } else {
+          this.tabsAreVisible = true;
+        }
         $scope.tabs = [];
         $scope.$watch('tabs.length', function(tabsL, oldL) {
           if (tabsL > 0 && tabsL < oldL) {

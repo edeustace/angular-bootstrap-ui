@@ -53,9 +53,12 @@ angular.module('angularBootstrap.tabs', [])
 		if $attrs.keyNav == "true"
 			this.initKeyNav($scope, $element)
 
-		$scope.$watch $attrs['ngShow'], (newValue, oldValue) =>
-			this.tabsAreVisible = newValue
-			
+
+		if $attrs['ngShow']
+			$scope.$watch $attrs['ngShow'], (newValue, oldValue) =>
+				this.tabsAreVisible = newValue
+		else
+			this.tabsAreVisible = true	
 
 		$scope.tabs = []
 
@@ -72,7 +75,7 @@ angular.module('angularBootstrap.tabs', [])
 
 			if !tab?
 				return
-				
+
 			_tab.selected false for _tab in $scope.tabs 
 
 			$timeout ->
